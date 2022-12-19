@@ -24,6 +24,7 @@ dependencies = [
 name = "array_expt"
 version = "0.1.0"
 dependencies = [
+ "itertools-num",
  "ndarray",
  "ndarray-linalg",
  "num-traits",
@@ -129,6 +130,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
 dependencies = [
  "libc",
+]
+
+[[package]]
+name = "itertools-num"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a872a22f9e6f7521ca557660adb96dd830e54f0f490fa115bb55dd69d38b27e7"
+dependencies = [
+ "num-traits",
 ]
 
 [[package]]
