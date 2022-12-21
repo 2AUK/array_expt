@@ -26,6 +26,9 @@ fn main() {
     let test_ndarray = Array::from_shape_vec((16, 3, 3), input_vec).unwrap();
     let test_ndarray2 = test_ndarray.clone();
     let test_ndarray3 = test_ndarray.clone();
+
+    println!("{}", test_ndarray);
+    println!("{}", input_array);
     ndarray::Zip::from(input_array.axis_iter_mut(Axis(0)))
         .and(test_ndarray.axis_iter(Axis(0)))
         .and(test_ndarray2.axis_iter(Axis(0)))
@@ -34,9 +37,16 @@ fn main() {
             // Want to perform a matrix multiplication
             // A * B * C where all matrices are NxN matrices
             // and save the result in inp - preallocated array
-            let mut mat = (a.dot(&b)).dot(&c);
-            inp = mat;
+            let mat = (a.dot(&b)).dot(&c);
+            inp.assign(&mat);
         }
 
-        )
+        );
+    println!("{}", input_array);
+    /*
+    let input_array = ndarray::Zip::from(test_ndarray.axis_iter(Axis(0)))
+    .and(test_ndarray2.axis_iter(Axis(0)))
+    .and(test_ndarray3.axis_iter(Axis(0)))
+    .map_assign_into(input_array.view_mut(), |a, b, c| a.dot(&b).dot(&c));
+     */
 }
