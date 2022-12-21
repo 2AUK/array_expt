@@ -1,8 +1,8 @@
 mod custom_grid;
 
 use crate::custom_grid::GridArray;
-use ndarray::prelude::*;
 use itertools_num::linspace;
+use ndarray::prelude::*;
 
 fn main() {
     println!("CUSTOM GRIDARRAY EXPT");
@@ -10,7 +10,7 @@ fn main() {
     println!("Initialised GridArray\n{:?}", test);
     test.push(1.01);
     test.push(2.45);
-    println!{"Pushed 2 values\n{:?}", test};
+    println! {"Pushed 2 values\n{:?}", test};
     let last_val = test.pop().unwrap();
     println!("Popped value: {}\nGridArray: {:?}", last_val, test);
     let mut other_test = GridArray::<f64>::new();
@@ -21,8 +21,8 @@ fn main() {
     println!("Adding {:?} and {:?}", test, other_test);
     println!("{:?}", test + other_test);
     println!("\nNDARRAY EXPT");
-    let input_vec: Vec<f64> = linspace::<f64>(0., 20.48, 16*3*3).collect();
-    let input_array = Array3::<f64>::zeros((16, 3, 3));
+    let input_vec: Vec<f64> = itertools_num::linspace::<f64>(0., 20.48, 16 * 3 * 3).collect();
+    let mut input_array = Array3::<f64>::zeros((16, 3, 3));
     let test_ndarray = Array::from_shape_vec((16, 3, 3), input_vec).unwrap();
     let test_ndarray2 = test_ndarray.clone();
     let test_ndarray3 = test_ndarray.clone();
@@ -30,11 +30,13 @@ fn main() {
         .and(test_ndarray.axis_iter(Axis(0)))
         .and(test_ndarray2.axis_iter(Axis(0)))
         .and(test_ndarray3.axis_iter(Axis(0)))
-        .for_each(
-            |mut inp, a, b, c|
+        .for_each(|mut inp, a, b, c|{
             // Want to perform a matrix multiplication
             // A * B * C where all matrices are NxN matrices
             // and save the result in inp - preallocated array
-            inp = a
-                )
+            let mut mat = (a.dot(&b)).dot(&c);
+            inp = mat;
+        }
+
+        )
 }
