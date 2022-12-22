@@ -1,8 +1,10 @@
 mod custom_grid;
+extern crate openblas_src;
 
 use crate::custom_grid::GridArray;
 use itertools_num::linspace;
 use ndarray::prelude::*;
+use ndarray_linalg::Inverse;
 
 fn main() {
     println!("CUSTOM GRIDARRAY EXPT");
@@ -27,6 +29,12 @@ fn main() {
     let test_ndarray2 = test_ndarray.clone();
     let test_ndarray3 = test_ndarray.clone();
 
+    let dens_array = array![[3.0, 3.0, 3.0], [3.0, 3.0, 3.0], [3.0, 3.0, 3.0]];
+    let ident = Array2::<f64>::ones((3, 3));
+
+    let invertible_matrix = array![[-1.0, 1.5], [1.0, -1.0]];
+    let inverted = invertible_matrix.inv().unwrap();
+    println!("Matrix:\n{}\nInverted:\n{}", invertible_matrix, inverted);
     println!("{}", test_ndarray);
     println!("{}", input_array);
     ndarray::Zip::from(input_array.axis_iter_mut(Axis(0)))
@@ -37,7 +45,8 @@ fn main() {
             // Want to perform a matrix multiplication
             // A * B * C where all matrices are NxN matrices
             // and save the result in inp - preallocated array
-            let mat = (a.dot(&b)).dot(&c);
+            let inv_mat = 1.0 + (a.dot(&dens_array));
+            let mat = (inv_mat.dot(&c).dot(&b) + 150.0);
             inp.assign(&mat);
         }
 
